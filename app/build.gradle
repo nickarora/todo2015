@@ -20,6 +20,10 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        release
+    }
+
     buildTypes {
         debug {
             applicationIdSuffix '.debug'
@@ -27,13 +31,14 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 
     packagingOptions {
         exclude 'LICENSE.txt'
     }
-    
+
 }
 
 dependencies {
@@ -111,5 +116,12 @@ dependencies {
     androidTestCompile ('com.squareup.assertj:assertj-android:1.1.1') {
         exclude module: 'support-annotations'
     }
-
 }
+
+/* signing application */
+def props = new Properties()
+props.load(new FileInputStream(rootProject.file("signing.properties")))
+android.signingConfigs.release.storeFile rootProject.file(props.keyStore)
+android.signingConfigs.release.storePassword props.keyStorePassword
+android.signingConfigs.release.keyAlias props.keyAlias
+android.signingConfigs.release.keyPassword props.keyAliasPassword

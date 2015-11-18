@@ -15,6 +15,9 @@ local.properties
 bin/
 gen/
 
+# Signing
+*.jks
+
 # Gradle files
 .gradle/
 build/
