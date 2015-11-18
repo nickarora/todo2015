@@ -10,6 +10,8 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -74,5 +76,25 @@ dependencies {
 
     // Fluent test propositions for unit tests
     testCompile 'com.google.truth:truth:0.27'
+
+    androidTestCompile ('com.android.support.test:runner:0.4.1') {
+        exclude module: 'support-annotations'
+    }
+
+    // Use Junit4 Rules
+    androidTestCompile ('com.android.support.test:rules:0.4') {
+        exclude module: 'support-annotations'
+    }
+
+    // Espresso UI Testing framework
+    androidTestCompile ('com.android.support.test.espresso:espresso-core:2.2.1') {
+        exclude module: 'support-annotations'
+        exclude group: 'javax.inject' // required to play nice with dagger
+    }
+
+    // Fluid test propositions for instrumentation tests
+    androidTestCompile ('com.squareup.assertj:assertj-android:1.1.1') {
+        exclude module: 'support-annotations'
+    }
 
 }
