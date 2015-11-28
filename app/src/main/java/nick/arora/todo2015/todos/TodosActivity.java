@@ -1,11 +1,11 @@
 package nick.arora.todo2015.todos;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import nick.arora.todo2015.BaseActivity;
 import nick.arora.todo2015.R;
 
-public class TodosActivity extends AppCompatActivity {
+public class TodosActivity extends BaseActivity implements TodosContract.View {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
