@@ -44,75 +44,36 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    /* Support dependencies */
-    /* -------------------- */
-
-    // Backport API and feature-set for Android 5.0
     compile 'com.android.support:appcompat-v7:23.1.1'
-
-    /* 3rd party libs */
-    /* -------------- */
-
-    // Field and method binding for Android views
     compile 'com.jakewharton:butterknife:7.0.1'
-
-    // Improved Android logging
     compile 'com.jakewharton.timber:timber:4.1.0'
-
-    // Reactive components in Android
     compile 'io.reactivex:rxandroid:1.0.1'
-
-    // Because RxAndroid releases are infrequent, also depend on RxJava
     compile 'io.reactivex:rxjava:1.0.16'
-
-    // Dependency Injection
     compile 'com.google.dagger:dagger:2.0.2'
-
-    // A type-safe Http Client
     compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'
-
-    // HTTP client
     compile 'com.squareup.okhttp:okhttp:2.5.0'
-
-    // Image downloading and caching library
     compile 'com.squareup.picasso:picasso:2.5.2'
-
-    // Reactive stream semantics to DB queries
     compile 'com.squareup.sqlbrite:sqlbrite:0.4.1'
-
-    // Custom fonts
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
-
-    // Svg support
     compile 'com.github.japgolly.android:svg-android:2.0.6'
 
-    /* Testing */
-    /* ------- */
-
     testCompile 'junit:junit:4.12'
-
-    // Mocking framework for unit tests
     testCompile "org.mockito:mockito-core:2.0.31-beta"
-
-    // Fluent test propositions for unit tests
     testCompile 'com.google.truth:truth:0.27'
 
     androidTestCompile ('com.android.support.test:runner:0.4.1') {
         exclude module: 'support-annotations'
     }
 
-    // Use Junit4 Rules
     androidTestCompile ('com.android.support.test:rules:0.4') {
         exclude module: 'support-annotations'
     }
 
-    // Espresso UI Testing framework
     androidTestCompile ('com.android.support.test.espresso:espresso-core:2.2.1') {
         exclude module: 'support-annotations'
-        exclude group: 'javax.inject' // required to play nice with dagger
+        exclude group: 'javax.inject'
     }
 
-    // Fluid test propositions for instrumentation tests
     androidTestCompile ('com.squareup.assertj:assertj-android:1.1.1') {
         exclude module: 'support-annotations'
     }
