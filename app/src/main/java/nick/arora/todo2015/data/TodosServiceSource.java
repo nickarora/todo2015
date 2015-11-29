@@ -11,26 +11,25 @@ import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
 import rx.Observable;
-import rx.schedulers.Schedulers;
 
 public class TodosServiceSource {
 
     private static final String END_POINT = BuildConfig.PARSE_END_POINT;
 
     public static Observable<List<Todo>> getTodos() {
-        return buildTodosEndpoint().getAllTodos().subscribeOn(Schedulers.newThread());
+        return buildTodosEndpoint().getAllTodos();
     }
 
     public static Observable<Parse> saveTodo(Todo todo) {
-        return buildTodoEndpoint().saveTodo(todo).subscribeOn(Schedulers.newThread());
+        return buildTodoEndpoint().saveTodo(todo);
     }
 
     public static Observable<Parse> updateTodo(Todo todo) {
-        return buildTodoEndpoint().updateTodo(todo.getObjectId(), todo).subscribeOn(Schedulers.newThread());
+        return buildTodoEndpoint().updateTodo(todo.getObjectId(), todo);
     }
 
     public static Observable<Todo> getTodo(String objectId) {
-        return buildTodoEndpoint().getTodo(objectId).subscribeOn(Schedulers.newThread());
+        return buildTodoEndpoint().getTodo(objectId);
     }
 
     public static TodosServiceEndpoint buildTodoEndpoint() {

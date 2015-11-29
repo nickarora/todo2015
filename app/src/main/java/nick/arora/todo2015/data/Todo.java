@@ -6,6 +6,7 @@ import com.google.common.base.Objects;
 
 import java.util.UUID;
 
+
 public class Todo extends Parse {
 
     private String mDeviceId;
@@ -57,4 +58,8 @@ public class Todo extends Parse {
         return Objects.hashCode(mDeviceId, mTitle, mDescription, mArchived);
     }
 
+    @Override
+    public String toString() {
+        return String.format("Todo { %s, %s, %s, %b }", mTitle, mDescription, mDeviceId, mArchived);
+    }
 }

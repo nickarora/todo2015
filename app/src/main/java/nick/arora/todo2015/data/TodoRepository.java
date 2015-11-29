@@ -2,15 +2,19 @@ package nick.arora.todo2015.data;
 
 import android.support.annotation.NonNull;
 
+import rx.Observable;
+
 public interface TodoRepository {
 
-    void getTodos();
+    Observable<Todo> getAllTodos();
 
-    void getTodo();
+    Observable<Todo> getTodos(boolean archived);
 
-    void saveTodo(@NonNull Todo todo);
+    Observable<Todo> getTodo(String id);
 
-    void updateTodo(@NonNull Todo todo);
+    Observable<Todo> saveTodo(@NonNull Todo todo);
+
+    Observable<Todo> updateTodo(@NonNull Todo todo);
 
     void refreshData();
 }

@@ -1,13 +1,23 @@
 package nick.arora.todo2015.data;
 
+import java.util.List;
+
+import rx.Observable;
+
 public interface TodoServiceApi {
 
-    void getAllTodos();
+    Observable<List<Todo>> getTodosList();
 
-    void getTodo(String id);
+    Observable<Todo> getAllTodos();
 
-    void saveTodo(Todo todo);
+    Observable<Todo> getUnarchivedTodos();
 
-    void updateTodo(Todo todo);
+    Observable<Todo> getArchivedTodos();
+
+    Observable<Todo> getTodo(String id);
+
+    Observable<Todo> saveTodo(Todo todo);
+
+    Observable<Todo> updateTodo(Todo todo);
 
 }
