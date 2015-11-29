@@ -4,7 +4,7 @@ public class Parse {
 
     protected String createdAt;
     protected String updatedAt;
-    protected String objectId;
+    public String objectId;
 
     public boolean isPersisted() {
         return (objectId != null);
