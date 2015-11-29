@@ -4,7 +4,6 @@ public class TodoServiceApiImpl implements TodoServiceApi {
 
     @Override
     public void getAllTodos() {
-
     }
 
     @Override

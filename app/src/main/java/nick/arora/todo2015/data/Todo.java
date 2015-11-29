@@ -1,16 +1,17 @@
 package nick.arora.todo2015.data;
 
 import android.support.annotation.Nullable;
-import android.support.test.espresso.core.deps.guava.base.Objects;
+
+import com.google.common.base.Objects;
 
 import java.util.UUID;
 
 public class Todo extends Parse {
 
-    private final String mDeviceId;
-    private final String mTitle;
-    @Nullable private final String mDescription;
-    private final boolean mArchived;
+    private String mDeviceId;
+    private String mTitle;
+    @Nullable private  String mDescription;
+    private boolean mArchived;
 
     public Todo(String mTitle, String mDescription, boolean mArchived) {
         this.mDeviceId = getDeviceId();

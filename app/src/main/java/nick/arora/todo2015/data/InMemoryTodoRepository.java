@@ -7,8 +7,7 @@ import java.util.List;
 public class InMemoryTodoRepository implements TodoRepository {
 
     private final TodoServiceApi mTodoServiceApi;
-
-    private List<Todo> mCachedNotes;
+    private List<Todo> mCachedTodos;
 
     public InMemoryTodoRepository(@NonNull TodoServiceApi todoServiceApi) {
         this.mTodoServiceApi = todoServiceApi;
