@@ -2,12 +2,30 @@ package nick.arora.todo2015.data;
 
 public class Parse {
 
-    private String createdAt;
-    private String updatedAt;
-    private String objectId;
+    protected String createdAt;
+    protected String updatedAt;
+    protected String objectId;
 
     public boolean isPersisted() {
-        return (objectId == null);
+        return (objectId != null);
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public String getObjectId() {
+        return objectId;
+    }
+
+    public void setParseData(Parse parse) {
+        createdAt = parse.createdAt;
+        updatedAt = parse.updatedAt;
+        objectId = parse.objectId;
     }
 
 }
