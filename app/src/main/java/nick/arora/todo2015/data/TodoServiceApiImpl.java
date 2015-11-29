@@ -66,4 +66,25 @@ public class TodoServiceApiImpl implements TodoServiceApi {
             }
         });
     }
+
+    @Override
+    public void getTodo(String id) {
+
+        TodosServiceSource.getTodo(id).subscribe(new Subscriber<Todo>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Todo todo) {
+                //
+            }
+        });
+    }
 }

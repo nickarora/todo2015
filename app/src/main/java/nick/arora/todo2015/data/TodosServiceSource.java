@@ -29,6 +29,10 @@ public class TodosServiceSource {
         return buildTodoEndpoint().updateTodo(todo.getObjectId(), todo).subscribeOn(Schedulers.newThread());
     }
 
+    public static Observable<Todo> getTodo(String objectId) {
+        return buildTodoEndpoint().getTodo(objectId).subscribeOn(Schedulers.newThread());
+    }
+
     public static TodosServiceEndpoint buildTodoEndpoint() {
         RestAdapter.Builder builder = new RestAdapter.Builder()
                 .setEndpoint(END_POINT)

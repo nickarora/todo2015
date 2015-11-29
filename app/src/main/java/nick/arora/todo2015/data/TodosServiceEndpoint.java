@@ -14,6 +14,9 @@ public interface TodosServiceEndpoint {
     @GET("/1/classes/Todos")
     Observable<List<Todo>> getAllTodos();
 
+    @GET("/1/classes/Todos/{objectId}")
+    Observable<Todo> getTodo(@Path("objectId") String objectId);
+
     @POST("/1/classes/Todos")
     Observable<Parse> saveTodo(@Body Todo todo);
 
