@@ -5,16 +5,12 @@ import android.support.test.espresso.core.deps.guava.base.Objects;
 
 import java.util.UUID;
 
-public class Todo {
+public class Todo extends Parse {
 
     private final String mDeviceId;
     private final String mTitle;
     @Nullable private final String mDescription;
     private final boolean mArchived;
-
-    private String createdAt;
-    private String updatedAt;
-    private String objectId;
 
     public Todo(String mTitle, String mDescription, boolean mArchived) {
         this.mDeviceId = getDeviceId();
@@ -42,10 +38,6 @@ public class Todo {
 
     public boolean isArchived() {
         return mArchived;
-    }
-
-    public boolean isPersisted() {
-        return (objectId == null);
     }
 
     @Override
