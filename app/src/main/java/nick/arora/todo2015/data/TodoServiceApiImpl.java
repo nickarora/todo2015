@@ -13,7 +13,7 @@ public class TodoServiceApiImpl implements TodoServiceApi {
     }
 
     @Override
-    public Observable<Todo> getAllTodos() {
+    public Observable<Todo> getEachTodo() {
         return TodosServiceSource
                 .getTodos()
                 .flatMap(new Func1<List<Todo>, Observable<Todo>>() {
@@ -26,7 +26,7 @@ public class TodoServiceApiImpl implements TodoServiceApi {
 
     @Override
     public Observable<Todo> getUnarchivedTodos() {
-        return getAllTodos()
+        return getEachTodo()
                 .filter(new Func1<Todo, Boolean>() {
                     @Override
                     public Boolean call(Todo todo) {
@@ -37,7 +37,7 @@ public class TodoServiceApiImpl implements TodoServiceApi {
 
     @Override
     public Observable<Todo> getArchivedTodos() {
-        return getAllTodos()
+        return getEachTodo()
                 .filter(new Func1<Todo, Boolean>() {
                     @Override
                     public Boolean call(Todo todo) {

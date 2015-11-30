@@ -2,13 +2,17 @@ package nick.arora.todo2015.data;
 
 import android.support.annotation.NonNull;
 
+import java.util.List;
+
 import rx.Observable;
 
 public interface TodoRepository {
 
-    Observable<Todo> getAllTodos();
+    Observable<List<Todo>> getTodosList();
 
-    Observable<Todo> getTodos(boolean archived);
+    Observable<Todo> getEachTodo();
+
+    Observable<Todo> getEachTodo(boolean archived);
 
     Observable<Todo> getTodo(String id);
 

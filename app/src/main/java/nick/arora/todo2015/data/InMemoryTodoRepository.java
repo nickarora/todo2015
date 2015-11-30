@@ -2,11 +2,14 @@ package nick.arora.todo2015.data;
 
 import android.support.annotation.NonNull;
 
+import com.google.common.collect.ImmutableList;
+
 import java.util.List;
 
-import nick.arora.todo2015.util.RxUtil;
 import rx.Observable;
-import rx.Subscriber;
+import rx.functions.Func1;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public class InMemoryTodoRepository implements TodoRepository {
 
@@ -18,12 +21,25 @@ public class InMemoryTodoRepository implements TodoRepository {
     }
 
     @Override
-    public Observable<Todo> getAllTodos() {
-        return mTodoServiceApi.getAllTodos();
+    public Observable<List<Todo>> getTodosList() {
+        return mTodoServiceApi
+                .getTodosList()
+                .map(new Func1<List<Todo>, List<Todo>>() {
+                    @Override
+                    public List<Todo> call(List<Todo> todos) {
+                        mCachedTodos = ImmutableList.copyOf(todos);
+                        return todos;
+                    }
+                });
     }
 
     @Override
-    public Observable<Todo> getTodos(boolean archived) {
+    public Observable<Todo> getEachTodo() {
+        return mTodoServiceApi.getEachTodo();
+    }
+
+    @Override
+    public Observable<Todo> getEachTodo(boolean archived) {
         if (archived) {
             return mTodoServiceApi.getArchivedTodos();
         } else {
@@ -32,36 +48,30 @@ public class InMemoryTodoRepository implements TodoRepository {
     }
 
     @Override
-    public Observable<Todo> getTodo(String id) {
+    public Observable<Todo> getTodo(@NonNull String id) {
+        checkNotNull(id);
         return mTodoServiceApi.getTodo(id);
     }
 
     @Override
     public Observable<Todo> saveTodo(@NonNull Todo todo) {
+        checkNotNull(todo);
+
+        refreshData();
         return mTodoServiceApi.saveTodo(todo);
     }
 
     @Override
     public Observable<Todo> updateTodo(@NonNull Todo todo) {
+        checkNotNull(todo);
+
+        refreshData();
         return mTodoServiceApi.updateTodo(todo);
     }
 
     @Override
     public void refreshData() {
-        mTodoServiceApi.getTodosList()
-                .compose(RxUtil.<List<Todo>>applyBackgroundSchedulers())
-                .subscribe(new Subscriber<List<Todo>>() {
-                    @Override
-                    public void onCompleted() {}
-
-                    @Override
-                    public void onError(Throwable e) {}
-
-                    @Override
-                    public void onNext(List<Todo> todos) {
-                        mCachedTodos = todos;
-                    }
-                });
+        mCachedTodos = null;
     }
 
 }

@@ -8,7 +8,7 @@ public interface TodoServiceApi {
 
     Observable<List<Todo>> getTodosList();
 
-    Observable<Todo> getAllTodos();
+    Observable<Todo> getEachTodo();
 
     Observable<Todo> getUnarchivedTodos();
 
