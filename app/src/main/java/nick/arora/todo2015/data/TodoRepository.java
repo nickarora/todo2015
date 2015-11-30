@@ -8,7 +8,7 @@ import rx.Observable;
 
 public interface TodoRepository {
 
-    Observable<List<Todo>> getTodosList();
+    Observable<List<Todo>> getTodos();
 
     Observable<Todo> getEachTodo();
 

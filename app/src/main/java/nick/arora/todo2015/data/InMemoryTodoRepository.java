@@ -21,9 +21,9 @@ public class InMemoryTodoRepository implements TodoRepository {
     }
 
     @Override
-    public Observable<List<Todo>> getTodosList() {
+    public Observable<List<Todo>> getTodos() {
         return mTodoServiceApi
-                .getTodosList()
+                .getTodos()
                 .map(new Func1<List<Todo>, List<Todo>>() {
                     @Override
                     public List<Todo> call(List<Todo> todos) {

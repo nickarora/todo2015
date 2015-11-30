@@ -15,7 +15,7 @@ public class TodoServiceApiImpl implements TodoServiceApi {
     }
 
     @Override
-    public Observable<List<Todo>> getTodosList() {
+    public Observable<List<Todo>> getTodos() {
         return TodosServiceSource
                 .getTodos()
                 .map(new Func1<List<Todo>, List<Todo>>() {

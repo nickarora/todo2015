@@ -6,7 +6,7 @@ import rx.Observable;
 
 public interface TodoServiceApi {
 
-    Observable<List<Todo>> getTodosList();
+    Observable<List<Todo>> getTodos();
 
     Observable<Todo> getEachTodo();
 
