@@ -2,14 +2,28 @@ package nick.arora.todo2015.data;
 
 import java.util.List;
 
+import nick.arora.todo2015.util.Filter;
 import rx.Observable;
 import rx.functions.Func1;
 
 public class TodoServiceApiImpl implements TodoServiceApi {
 
+    private String mDeviceId;
+
+    public TodoServiceApiImpl(String mDeviceId) {
+        this.mDeviceId = mDeviceId;
+    }
+
     @Override
     public Observable<List<Todo>> getTodosList() {
-        return TodosServiceSource.getTodos();
+        return TodosServiceSource
+                .getTodos()
+                .map(new Func1<List<Todo>, List<Todo>>() {
+                    @Override
+                    public List<Todo> call(List<Todo> todos) {
+                        return Filter.todosByDevice(todos, mDeviceId);
+                    }
+                });
     }
 
     @Override
@@ -48,7 +62,14 @@ public class TodoServiceApiImpl implements TodoServiceApi {
 
     @Override
     public Observable<Todo> getTodo(String id) {
-        return TodosServiceSource.getTodo(id);
+        return TodosServiceSource
+                .getTodo(id)
+                .filter(new Func1<Todo, Boolean>() {
+                    @Override
+                    public Boolean call(Todo todo) {
+                        return todo.getDeviceId().equals(mDeviceId);
+                    }
+                });
     }
 
     @Override

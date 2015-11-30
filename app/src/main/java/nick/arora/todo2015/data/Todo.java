@@ -15,17 +15,17 @@ public class Todo extends Parse {
     private boolean mArchived;
 
     public Todo(String mTitle, String mDescription, boolean mArchived) {
-        this.mDeviceId = getDeviceId();
+        this.mDeviceId = generateDeviceId();
         this.mTitle = mTitle;
         this.mDescription = mDescription;
         this.mArchived = mArchived;
     }
 
-    private String getDeviceId() {
+    private String generateDeviceId() {
         return UUID.randomUUID().toString();
     }
 
-    public String getId() {
+    public String getDeviceId() {
         return mDeviceId;
     }
 
