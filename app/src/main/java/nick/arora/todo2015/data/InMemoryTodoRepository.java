@@ -41,9 +41,9 @@ public class InMemoryTodoRepository implements TodoRepository {
     @Override
     public Observable<Todo> getEachTodo(boolean archived) {
         if (archived) {
-            return mTodoServiceApi.getArchivedTodos();
+            return mTodoServiceApi.getEachArchivedTodo();
         } else {
-            return  mTodoServiceApi.getUnarchivedTodos();
+            return  mTodoServiceApi.getEachUnarchivedTodo();
         }
     }
 

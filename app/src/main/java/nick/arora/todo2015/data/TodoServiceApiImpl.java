@@ -39,7 +39,7 @@ public class TodoServiceApiImpl implements TodoServiceApi {
     }
 
     @Override
-    public Observable<Todo> getUnarchivedTodos() {
+    public Observable<Todo> getEachUnarchivedTodo() {
         return getEachTodo()
                 .filter(new Func1<Todo, Boolean>() {
                     @Override
@@ -50,7 +50,7 @@ public class TodoServiceApiImpl implements TodoServiceApi {
     }
 
     @Override
-    public Observable<Todo> getArchivedTodos() {
+    public Observable<Todo> getEachArchivedTodo() {
         return getEachTodo()
                 .filter(new Func1<Todo, Boolean>() {
                     @Override
