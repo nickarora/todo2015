@@ -4,9 +4,6 @@ import android.support.annotation.Nullable;
 
 import com.google.common.base.Objects;
 
-import java.util.UUID;
-
-
 public class Todo extends Parse {
 
     private String mDeviceId;

@@ -14,6 +14,7 @@ import java.util.List;
 
 import nick.arora.todo2015.data.models.Parse;
 import nick.arora.todo2015.data.models.Todo;
+import nick.arora.todo2015.persistedDeviceId.PersistedDeviceId;
 import nick.arora.todo2015.util.Filter;
 import rx.Observable;
 import rx.observers.TestSubscriber;
@@ -43,14 +44,19 @@ public class TodoServiceApiImplTest {
     private TodoServiceApiImpl todoServiceApiImpl;
 
     @Mock
+    private PersistedDeviceId persistedDeviceId;
+
+    @Mock
     private TodosServiceSource todosServiceSource;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         when(todosServiceSource.getTodos()).thenReturn(Observable.just(TODOS));
+        when(persistedDeviceId.getString()).thenReturn(MY_DEVICE);
+
         myTodos = Filter.todosByDevice(TODOS, MY_DEVICE);
-        todoServiceApiImpl = new TodoServiceApiImpl(todosServiceSource, MY_DEVICE);
+        todoServiceApiImpl = new TodoServiceApiImpl(todosServiceSource, persistedDeviceId);
     }
 
     @Test

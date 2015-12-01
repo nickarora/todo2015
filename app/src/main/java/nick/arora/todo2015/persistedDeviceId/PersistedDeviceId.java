@@ -1,4 +1,4 @@
-package nick.arora.todo2015.deviceId;
+package nick.arora.todo2015.persistedDeviceId;
 
 import android.content.SharedPreferences;
 
@@ -6,12 +6,12 @@ import java.util.UUID;
 
 import nick.arora.todo2015.BuildConfig;
 
-public class DeviceId {
+public class PersistedDeviceId {
 
     private SharedPreferences appPreferences;
     private String uuid;
 
-    public DeviceId(SharedPreferences sharedPreferences) {
+    public PersistedDeviceId(SharedPreferences sharedPreferences) {
         this.appPreferences = sharedPreferences;
         retrieveIdFromPersistedData();
     }
@@ -20,7 +20,7 @@ public class DeviceId {
         appPreferences.getString(BuildConfig.TODO_DEVICE_KEY, null);
     }
 
-    public String getUuid() {
+    public String getString() {
         if (uuid == null) { initDeviceId(); }
         return uuid;
     }

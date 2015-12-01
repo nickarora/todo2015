@@ -1,4 +1,4 @@
-package nick.arora.todo2015.deviceId;
+package nick.arora.todo2015.persistedDeviceId;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -9,7 +9,7 @@ import nick.arora.todo2015.BaseApplication;
 import nick.arora.todo2015.dagger.PerApp;
 
 @Module
-public class DeviceIdModule {
+public class PersistedDeviceIdModule {
 
     @Provides
     @PerApp
@@ -19,8 +19,8 @@ public class DeviceIdModule {
 
     @Provides
     @PerApp
-    public DeviceId provideDeviceId(SharedPreferences preferences) {
-        return new DeviceId(preferences);
+    public PersistedDeviceId providePersistedDeviceId(SharedPreferences preferences) {
+        return new PersistedDeviceId(preferences);
     }
 
 }

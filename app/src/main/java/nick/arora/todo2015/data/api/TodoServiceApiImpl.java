@@ -4,18 +4,19 @@ import java.util.List;
 
 import nick.arora.todo2015.data.models.Parse;
 import nick.arora.todo2015.data.models.Todo;
+import nick.arora.todo2015.persistedDeviceId.PersistedDeviceId;
 import nick.arora.todo2015.util.Filter;
 import rx.Observable;
 import rx.functions.Func1;
 
 public class TodoServiceApiImpl implements TodoServiceApi {
 
-    private String mDeviceId;
+    private PersistedDeviceId mDeviceId;
     private TodosServiceSource mTodosServiceSource;
 
-    public TodoServiceApiImpl(TodosServiceSource todosServiceSource, String mDeviceId) {
+    public TodoServiceApiImpl(TodosServiceSource todosServiceSource, PersistedDeviceId deviceId) {
         this.mTodosServiceSource = todosServiceSource;
-        this.mDeviceId = mDeviceId;
+        this.mDeviceId = deviceId;
     }
 
     @Override
@@ -25,7 +26,7 @@ public class TodoServiceApiImpl implements TodoServiceApi {
                 .map(new Func1<List<Todo>, List<Todo>>() {
                     @Override
                     public List<Todo> call(List<Todo> todos) {
-                        return Filter.todosByDevice(todos, mDeviceId);
+                        return Filter.todosByDevice(todos, mDeviceId.getString());
                     }
                 });
     }
@@ -70,7 +71,7 @@ public class TodoServiceApiImpl implements TodoServiceApi {
                 .filter(new Func1<Todo, Boolean>() {
                     @Override
                     public Boolean call(Todo todo) {
-                        return todo.getDeviceId().equals(mDeviceId);
+                        return todo.getDeviceId().equals(mDeviceId.getString());
                     }
                 });
     }
