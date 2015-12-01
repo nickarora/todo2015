@@ -1,6 +1,7 @@
 package nick.arora.todo2015.data;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import com.google.common.collect.ImmutableList;
 
@@ -14,7 +15,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class InMemoryTodoRepository implements TodoRepository {
 
     private final TodoServiceApi mTodoServiceApi;
-    private List<Todo> mCachedTodos;
+
+    @VisibleForTesting
+    List<Todo> mCachedTodos;
 
     public InMemoryTodoRepository(@NonNull TodoServiceApi todoServiceApi) {
         this.mTodoServiceApi = todoServiceApi;
@@ -22,15 +25,19 @@ public class InMemoryTodoRepository implements TodoRepository {
 
     @Override
     public Observable<List<Todo>> getTodos() {
-        return mTodoServiceApi
-                .getTodos()
-                .map(new Func1<List<Todo>, List<Todo>>() {
-                    @Override
-                    public List<Todo> call(List<Todo> todos) {
-                        mCachedTodos = ImmutableList.copyOf(todos);
-                        return todos;
-                    }
-                });
+        if (mCachedTodos == null) {
+            return mTodoServiceApi
+                    .getTodos()
+                    .map(new Func1<List<Todo>, List<Todo>>() {
+                        @Override
+                        public List<Todo> call(List<Todo> todos) {
+                            mCachedTodos = ImmutableList.copyOf(todos);
+                            return todos;
+                        }
+                    });
+        } else {
+            return Observable.just(mCachedTodos);
+        }
     }
 
     @Override
@@ -57,16 +64,26 @@ public class InMemoryTodoRepository implements TodoRepository {
     public Observable<Todo> saveTodo(@NonNull Todo todo) {
         checkNotNull(todo);
 
-        refreshData();
-        return mTodoServiceApi.saveTodo(todo);
+        return mTodoServiceApi.saveTodo(todo).map(new Func1<Todo, Todo>() {
+            @Override
+            public Todo call(Todo todo) {
+                refreshData();
+                return todo;
+            }
+        });
     }
 
     @Override
     public Observable<Todo> updateTodo(@NonNull Todo todo) {
         checkNotNull(todo);
 
-        refreshData();
-        return mTodoServiceApi.updateTodo(todo);
+        return mTodoServiceApi.updateTodo(todo).map(new Func1<Todo, Todo>() {
+            @Override
+            public Todo call(Todo todo) {
+                refreshData();
+                return todo;
+            }
+        });
     }
 
     @Override

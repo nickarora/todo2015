@@ -26,7 +26,7 @@ public class FilterTest {
     );
 
     @Test
-    public void testTodosByDevice() throws Exception {
+    public void todosByDevice_returnsListWithMatchingDeviceId() throws Exception {
         List<Todo> filteredList = Filter.todosByDevice(TODOS, MY_DEVICE);
         assertThat(filteredList).containsNoneOf(TODOS.get(5), TODOS.get(6));
         assertThat(filteredList).hasSize(5);

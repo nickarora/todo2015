@@ -25,6 +25,7 @@ public class TodoServiceApiImplTest {
     private static final String OBJECT_ID = "object_id";
     public static final String TIME_STAMP = "1";
 
+    //mimics the data you might see on the server
     private static List<Todo> TODOS = Lists.newArrayList(
             new Todo(MY_DEVICE, "Test1", "Description1", false),
             new Todo(MY_DEVICE, "Test2", "Description2", false),
@@ -51,7 +52,7 @@ public class TodoServiceApiImplTest {
     }
 
     @Test
-    public void testGetTodos() throws Exception {
+    public void getTodos_returnsTheListOfTodos() throws Exception {
         TestSubscriber<List<Todo>> testSubscriber = new TestSubscriber<>();
         todoServiceApiImpl.getTodos().subscribe(testSubscriber);
         testSubscriber.assertNoErrors();
@@ -59,7 +60,7 @@ public class TodoServiceApiImplTest {
     }
 
     @Test
-    public void testGetEachTodo() throws Exception {
+    public void getEachTodo_iteratesThroughEachTodo() throws Exception {
         TestSubscriber<Todo> testSubscriber = new TestSubscriber<>();
         todoServiceApiImpl.getEachTodo().subscribe(testSubscriber);
         testSubscriber.assertNoErrors();
@@ -67,7 +68,7 @@ public class TodoServiceApiImplTest {
     }
 
     @Test
-    public void testGetEachUnarchivedTodo() throws Exception {
+    public void getEachUnarchivedTodo_iteratesThroughEachUnarchivedTodo() throws Exception {
         TestSubscriber<Todo> testSubscriber = new TestSubscriber<>();
         todoServiceApiImpl.getEachUnarchivedTodo().subscribe(testSubscriber);
         testSubscriber.assertNoErrors();
@@ -75,7 +76,7 @@ public class TodoServiceApiImplTest {
     }
 
     @Test
-    public void testGetEachArchivedTodo() throws Exception {
+    public void getEachArchivedTodo_iteratesThroughEachArchivedTodo() throws Exception {
         TestSubscriber<Todo> testSubscriber = new TestSubscriber<>();
         todoServiceApiImpl.getEachArchivedTodo().subscribe(testSubscriber);
         testSubscriber.assertNoErrors();
@@ -83,7 +84,7 @@ public class TodoServiceApiImplTest {
     }
 
     @Test
-    public void testGetTodo() throws Exception {
+    public void getTodo_returnsTodoWithMatchingObjectId() throws Exception {
         when(todosServiceSource.getTodo(OBJECT_ID)).thenReturn(Observable.just(TODOS.get(3)));
         TestSubscriber<Todo> testSubscriber = new TestSubscriber<>();
         todoServiceApiImpl.getTodo(OBJECT_ID).subscribe(testSubscriber);
@@ -92,7 +93,7 @@ public class TodoServiceApiImplTest {
     }
 
     @Test
-    public void testSaveTodo() throws Exception {
+    public void saveTodo_returnsTodoAndAssignsObjectIdField() throws Exception {
         Todo newTodo = new Todo(MY_DEVICE, "Test8", "Description8", false);
         Parse parseData = createParseData();
         when(todosServiceSource.saveTodo(newTodo)).thenReturn(Observable.just(parseData));
@@ -106,7 +107,7 @@ public class TodoServiceApiImplTest {
     }
 
     @Test
-    public void testUpdateTodo() throws Exception {
+    public void updateTodo_returnsTodoAndAssignsUpdatedAtField() throws Exception {
         Todo todo = new Todo(MY_DEVICE, "Test8", "Description8", false);
         todo.objectId = OBJECT_ID;
         todo.archive();
