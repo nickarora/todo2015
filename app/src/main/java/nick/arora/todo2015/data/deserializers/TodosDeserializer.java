@@ -9,7 +9,7 @@ import com.google.gson.JsonParseException;
 import java.lang.reflect.Type;
 import java.util.List;
 
-import nick.arora.todo2015.data.Todo;
+import nick.arora.todo2015.data.models.Todo;
 
 public class TodosDeserializer implements JsonDeserializer<List<Todo>> {
 

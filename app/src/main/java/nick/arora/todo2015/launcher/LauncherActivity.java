@@ -1,8 +1,9 @@
-package nick.arora.todo2015;
+package nick.arora.todo2015.launcher;
 
 import android.content.Intent;
 import android.os.Bundle;
 
+import nick.arora.todo2015.BaseActivity;
 import nick.arora.todo2015.todos.TodosActivity;
 
 public class LauncherActivity extends BaseActivity {

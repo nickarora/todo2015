@@ -1,4 +1,4 @@
-package nick.arora.todo2015.data;
+package nick.arora.todo2015.data.models;
 
 public class Parse {
 

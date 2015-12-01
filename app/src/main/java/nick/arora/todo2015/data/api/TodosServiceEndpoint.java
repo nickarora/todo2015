@@ -1,7 +1,9 @@
-package nick.arora.todo2015.data;
+package nick.arora.todo2015.data.api;
 
 import java.util.List;
 
+import nick.arora.todo2015.data.models.Parse;
+import nick.arora.todo2015.data.models.Todo;
 import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.POST;

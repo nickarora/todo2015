@@ -1,4 +1,4 @@
-package nick.arora.todo2015.data;
+package nick.arora.todo2015.data.api;
 
 import com.google.common.collect.Lists;
 
@@ -12,6 +12,8 @@ import static org.mockito.Mockito.*;
 import java.util.Arrays;
 import java.util.List;
 
+import nick.arora.todo2015.data.models.Parse;
+import nick.arora.todo2015.data.models.Todo;
 import nick.arora.todo2015.util.Filter;
 import rx.Observable;
 import rx.observers.TestSubscriber;

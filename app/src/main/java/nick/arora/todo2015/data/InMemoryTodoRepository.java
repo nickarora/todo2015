@@ -7,6 +7,8 @@ import com.google.common.collect.ImmutableList;
 
 import java.util.List;
 
+import nick.arora.todo2015.data.api.TodoServiceApi;
+import nick.arora.todo2015.data.models.Todo;
 import rx.Observable;
 import rx.functions.Func1;
 

@@ -9,6 +9,8 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.List;
 
+import nick.arora.todo2015.data.api.TodoServiceApi;
+import nick.arora.todo2015.data.models.Todo;
 import rx.Observable;
 
 import static com.google.common.truth.Truth.*;

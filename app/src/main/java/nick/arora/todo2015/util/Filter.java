@@ -3,7 +3,7 @@ package nick.arora.todo2015.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import nick.arora.todo2015.data.Todo;
+import nick.arora.todo2015.data.models.Todo;
 
 public class Filter {
 

@@ -1,4 +1,4 @@
-package nick.arora.todo2015.data;
+package nick.arora.todo2015.data.api;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -7,6 +7,8 @@ import java.util.List;
 
 import nick.arora.todo2015.BuildConfig;
 import nick.arora.todo2015.data.deserializers.TodosDeserializer;
+import nick.arora.todo2015.data.models.Parse;
+import nick.arora.todo2015.data.models.Todo;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;

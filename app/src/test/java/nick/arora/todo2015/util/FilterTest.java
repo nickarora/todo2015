@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import java.util.List;
 
-import nick.arora.todo2015.data.Todo;
+import nick.arora.todo2015.data.models.Todo;
 
 import static com.google.common.truth.Truth.assertThat;
 
