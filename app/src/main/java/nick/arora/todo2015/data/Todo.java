@@ -14,8 +14,8 @@ public class Todo extends Parse {
     @Nullable private  String mDescription;
     private boolean mArchived;
 
-    public Todo(String mTitle, String mDescription, boolean mArchived) {
-        this.mDeviceId = generateDeviceId();
+    public Todo(String mDeviceId, String mTitle, String mDescription, boolean mArchived) {
+        this.mDeviceId = mDeviceId;
         this.mTitle = mTitle;
         this.mDescription = mDescription;
         this.mArchived = mArchived;
@@ -38,6 +38,8 @@ public class Todo extends Parse {
         return mDescription;
     }
 
+    public void archive() { mArchived = true; }
+
     public boolean isArchived() {
         return mArchived;
     }
@@ -50,7 +52,10 @@ public class Todo extends Parse {
         return Objects.equal(mDeviceId, todo.mDeviceId) &&
                 Objects.equal(mTitle, todo.mTitle) &&
                 Objects.equal(mDescription, todo.mDescription) &&
-                Objects.equal(mArchived, todo.mArchived);
+                Objects.equal(mArchived, todo.mArchived) &&
+                Objects.equal(createdAt, todo.createdAt) &&
+                Objects.equal(updatedAt, todo.updatedAt) &&
+                Objects.equal(objectId, todo.objectId);
     }
 
     @Override

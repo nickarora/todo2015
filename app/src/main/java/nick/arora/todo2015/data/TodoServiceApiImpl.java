@@ -9,14 +9,16 @@ import rx.functions.Func1;
 public class TodoServiceApiImpl implements TodoServiceApi {
 
     private String mDeviceId;
+    private TodosServiceSource mTodosServiceSource;
 
-    public TodoServiceApiImpl(String mDeviceId) {
+    public TodoServiceApiImpl(TodosServiceSource todosServiceSource, String mDeviceId) {
+        this.mTodosServiceSource = todosServiceSource;
         this.mDeviceId = mDeviceId;
     }
 
     @Override
     public Observable<List<Todo>> getTodos() {
-        return TodosServiceSource
+        return mTodosServiceSource
                 .getTodos()
                 .map(new Func1<List<Todo>, List<Todo>>() {
                     @Override
@@ -28,8 +30,7 @@ public class TodoServiceApiImpl implements TodoServiceApi {
 
     @Override
     public Observable<Todo> getEachTodo() {
-        return TodosServiceSource
-                .getTodos()
+        return getTodos()
                 .flatMap(new Func1<List<Todo>, Observable<Todo>>() {
                     @Override
                     public Observable<Todo> call(List<Todo> todos) {
@@ -62,7 +63,7 @@ public class TodoServiceApiImpl implements TodoServiceApi {
 
     @Override
     public Observable<Todo> getTodo(String id) {
-        return TodosServiceSource
+        return mTodosServiceSource
                 .getTodo(id)
                 .filter(new Func1<Todo, Boolean>() {
                     @Override
@@ -74,7 +75,7 @@ public class TodoServiceApiImpl implements TodoServiceApi {
 
     @Override
     public Observable<Todo> saveTodo(final Todo todo) {
-        return TodosServiceSource
+        return mTodosServiceSource
                 .saveTodo(todo)
                 .map(new Func1<Parse, Todo>() {
                     @Override
@@ -87,7 +88,7 @@ public class TodoServiceApiImpl implements TodoServiceApi {
 
     @Override
     public Observable<Todo> updateTodo(final Todo todo) {
-        return TodosServiceSource
+        return mTodosServiceSource
                 .updateTodo(todo)
                 .map(new Func1<Parse, Todo>() {
                     @Override

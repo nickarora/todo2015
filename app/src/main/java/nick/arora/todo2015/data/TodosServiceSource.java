@@ -16,23 +16,23 @@ public class TodosServiceSource {
 
     private static final String END_POINT = BuildConfig.PARSE_END_POINT;
 
-    public static Observable<List<Todo>> getTodos() {
+    public Observable<List<Todo>> getTodos() {
         return buildTodosEndpoint().getAllTodos();
     }
 
-    public static Observable<Parse> saveTodo(Todo todo) {
+    public Observable<Parse> saveTodo(Todo todo) {
         return buildTodoEndpoint().saveTodo(todo);
     }
 
-    public static Observable<Parse> updateTodo(Todo todo) {
-        return buildTodoEndpoint().updateTodo(todo.getObjectId(), todo);
+    public Observable<Parse> updateTodo(Todo todo) {
+        return buildTodoEndpoint().updateTodo(todo.objectId, todo);
     }
 
-    public static Observable<Todo> getTodo(String objectId) {
+    public Observable<Todo> getTodo(String objectId) {
         return buildTodoEndpoint().getTodo(objectId);
     }
 
-    public static TodosServiceEndpoint buildTodoEndpoint() {
+    private TodosServiceEndpoint buildTodoEndpoint() {
         RestAdapter.Builder builder = new RestAdapter.Builder()
                 .setEndpoint(END_POINT)
                 .setRequestInterceptor(requestInterceptor())
@@ -41,7 +41,7 @@ public class TodosServiceSource {
         return builder.build().create(TodosServiceEndpoint.class);
     }
 
-    public static TodosServiceEndpoint buildTodosEndpoint() {
+    private TodosServiceEndpoint buildTodosEndpoint() {
         RestAdapter.Builder builder = new RestAdapter.Builder()
                 .setEndpoint(END_POINT)
                 .setRequestInterceptor(requestInterceptor())
@@ -51,13 +51,13 @@ public class TodosServiceSource {
         return builder.build().create(TodosServiceEndpoint.class);
     }
 
-    public static Gson todosGson() {
+    private Gson todosGson() {
         return new GsonBuilder()
                 .registerTypeAdapter(List.class, new TodosDeserializer())
                 .create();
     }
 
-    public static RequestInterceptor requestInterceptor() {
+    private RequestInterceptor requestInterceptor() {
         return new RequestInterceptor() {
             @Override
             public void intercept(RequestFacade request) {
