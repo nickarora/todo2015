@@ -60,7 +60,7 @@ public class Todo extends Parse {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(mDeviceId, mTitle, mDescription, mArchived);
+        return Objects.hashCode(mDeviceId, mTitle, mDescription, mArchived, createdAt, updatedAt, objectId);
     }
 
     @Override
