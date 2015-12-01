@@ -1,6 +1,7 @@
 package nick.arora.todo2015.persistedDeviceId;
 
 import android.content.SharedPreferences;
+import android.support.annotation.VisibleForTesting;
 
 import java.util.UUID;
 
@@ -17,7 +18,7 @@ public class PersistedDeviceId {
     }
 
     private void retrieveIdFromPersistedData() {
-        appPreferences.getString(BuildConfig.TODO_DEVICE_KEY, null);
+        uuid = appPreferences.getString(BuildConfig.TODO_DEVICE_KEY, null);
     }
 
     public String getString() {
