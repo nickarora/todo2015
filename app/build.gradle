@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt' // required for dagger 2.0
 
 def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
 def buildTime = new Date().format("yyyy-MM-dd'T'HH:mm:ss'Z'", TimeZone.getTimeZone("UTC"))
@@ -61,22 +62,28 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.google.guava:guava:18.0'
     compile 'com.google.code.gson:gson:2.5'
+
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.jakewharton.timber:timber:4.1.0'
     compile 'io.reactivex:rxandroid:1.0.1'
     compile 'io.reactivex:rxjava:1.0.16'
-    //compile 'com.google.dagger:dagger:2.0.2'
+
+    compile 'com.google.dagger:dagger:2.0.2'
+    apt 'com.google.dagger:dagger-compiler:2.0.1' // required for dagger 2.0
+    provided 'org.glassfish:javax.annotation:10.0-b28' // required for dagger 2.0
+
     compile 'com.squareup.retrofit:retrofit:1.9.0'
-    //compile 'com.squareup.retrofit:retrofit-converters:1.9.0'
-    //compile 'com.squareup.retrofit:retrofit-adapters:1.9.0'
+
     //compile 'com.squareup.okhttp:okhttp:2.5.0'
     //compile 'com.squareup.picasso:picasso:2.5.2'
     //compile 'com.squareup.sqlbrite:sqlbrite:0.4.1'
     //compile 'uk.co.chrisjenx:calligraphy:2.1.0'
     //compile 'com.github.japgolly.android:svg-android:2.0.6'
+
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-all:2.0.2-beta'
     testCompile 'com.google.truth:truth:0.27'
+
     androidTestCompile('com.android.support.test:runner:0.4.1') {
         exclude module: 'support-annotations'
     }
