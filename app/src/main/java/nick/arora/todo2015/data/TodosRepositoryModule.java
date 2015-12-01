@@ -6,12 +6,12 @@ import nick.arora.todo2015.dagger.PerApp;
 import nick.arora.todo2015.data.api.TodoServiceApiImpl;
 
 @Module
-public class TodoRepositoryModule {
+public class TodosRepositoryModule {
 
     @Provides
     @PerApp
-    public InMemoryTodoRepository provideInMemoryTodoRepository(TodoServiceApiImpl todoServiceApi) {
-        return new InMemoryTodoRepository(todoServiceApi);
+    public InMemoryTodosRepository provideInMemoryTodoRepository(TodoServiceApiImpl todoServiceApi) {
+        return new InMemoryTodosRepository(todoServiceApi);
     }
 
 }

@@ -14,14 +14,14 @@ import rx.functions.Func1;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class InMemoryTodoRepository implements TodoRepository {
+public class InMemoryTodosRepository implements TodosRepository {
 
     private final TodoServiceApi mTodoServiceApi;
 
     @VisibleForTesting
     List<Todo> mCachedTodos;
 
-    public InMemoryTodoRepository(@NonNull TodoServiceApi todoServiceApi) {
+    public InMemoryTodosRepository(@NonNull TodoServiceApi todoServiceApi) {
         this.mTodoServiceApi = todoServiceApi;
     }
 

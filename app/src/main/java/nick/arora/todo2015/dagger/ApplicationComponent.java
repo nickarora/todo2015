@@ -3,7 +3,7 @@ package nick.arora.todo2015.dagger;
 
 import dagger.Component;
 import nick.arora.todo2015.BaseActivity;
-import nick.arora.todo2015.data.TodoRepositoryModule;
+import nick.arora.todo2015.data.TodosRepositoryModule;
 import nick.arora.todo2015.data.api.TodoServiceModule;
 import nick.arora.todo2015.persistedDeviceId.PersistedDeviceIdModule;
 import nick.arora.todo2015.launcher.LauncherActivity;
@@ -14,7 +14,7 @@ import nick.arora.todo2015.todos.TodosActivity;
     modules= {
         AppContextModule.class,
         TodoServiceModule.class,
-        TodoRepositoryModule.class,
+        TodosRepositoryModule.class,
         PersistedDeviceIdModule.class
     }
 )

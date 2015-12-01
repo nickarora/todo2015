@@ -7,7 +7,7 @@ import java.util.List;
 import nick.arora.todo2015.data.models.Todo;
 import rx.Observable;
 
-public interface TodoRepository {
+public interface TodosRepository {
 
     Observable<List<Todo>> getTodos();
 
