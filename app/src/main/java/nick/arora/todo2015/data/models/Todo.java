@@ -21,10 +21,6 @@ public class Todo extends Parse {
         this.mArchived = mArchived;
     }
 
-    private String generateDeviceId() {
-        return UUID.randomUUID().toString();
-    }
-
     public String getDeviceId() {
         return mDeviceId;
     }

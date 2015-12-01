@@ -32,6 +32,7 @@ android {
         buildConfigField("String", "PARSE_APP_ID", getProps("parseAppId"))
         buildConfigField("String", "PARSE_REST_API_KEY", getProps("parseRestApiKey"))
         buildConfigField("String", "PARSE_END_POINT", getProps("parseEndPoint"))
+        buildConfigField("String", "TODO_DEVICE_KEY", getProps("deviceIdKey"))
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
