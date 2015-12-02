@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt' // required for dagger 2.0
+apply plugin: 'me.tatarka.retrolambda' // required for retrolambda
 
 def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
 def buildTime = new Date().format("yyyy-MM-dd'T'HH:mm:ss'Z'", TimeZone.getTimeZone("UTC"))
@@ -18,6 +19,11 @@ def getProps(String propName) {
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 
     defaultConfig {
         applicationId "nick.arora.todo2015"
@@ -60,31 +66,32 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    /* Google */
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.google.guava:guava:18.0'
     compile 'com.google.code.gson:gson:2.5'
-
+    /* Square */
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.jakewharton.timber:timber:4.1.0'
-    compile 'io.reactivex:rxandroid:1.0.1'
-    compile 'io.reactivex:rxjava:1.0.16'
-
-    compile 'com.google.dagger:dagger:2.0.2'
-    apt 'com.google.dagger:dagger-compiler:2.0.1' // required for dagger 2.0
-    provided 'org.glassfish:javax.annotation:10.0-b28' // required for dagger 2.0
-
-    compile 'com.squareup.retrofit:retrofit:1.9.0'
-
     //compile 'com.squareup.okhttp:okhttp:2.5.0'
     //compile 'com.squareup.picasso:picasso:2.5.2'
     //compile 'com.squareup.sqlbrite:sqlbrite:0.4.1'
+    /* Rx */
+    compile 'io.reactivex:rxandroid:1.0.1'
+    compile 'io.reactivex:rxjava:1.0.16'
+    /* Dagger */
+    compile 'com.google.dagger:dagger:2.0.2'
+    apt 'com.google.dagger:dagger-compiler:2.0.1'
+    provided 'org.glassfish:javax.annotation:10.0-b28'
+    compile 'com.squareup.retrofit:retrofit:1.9.0'
+    /* UI */
     //compile 'uk.co.chrisjenx:calligraphy:2.1.0'
     //compile 'com.github.japgolly.android:svg-android:2.0.6'
-
+    /* Unit Tests */
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-all:2.0.2-beta'
     testCompile 'com.google.truth:truth:0.27'
-
+    /* Instrumentation Tests */
     androidTestCompile('com.android.support.test:runner:0.4.1') {
         exclude module: 'support-annotations'
     }
@@ -98,7 +105,6 @@ dependencies {
     androidTestCompile('com.squareup.assertj:assertj-android:1.1.1') {
         exclude module: 'support-annotations'
     }
-
 }
 
 /* signing application */

@@ -2,9 +2,6 @@ package nick.arora.todo2015.persistedDeviceId;
 
 import android.content.SharedPreferences;
 
-import com.google.common.truth.Expect;
-import com.google.common.truth.Truth;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;

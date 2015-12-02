@@ -28,14 +28,11 @@ public class InMemoryTodosRepository implements TodosRepository {
     @Override
     public Observable<List<Todo>> getTodos() {
         if (mCachedTodos == null) {
-            return mTodoServiceApi
-                    .getTodos()
-                    .map(new Func1<List<Todo>, List<Todo>>() {
-                        @Override
-                        public List<Todo> call(List<Todo> todos) {
-                            mCachedTodos = ImmutableList.copyOf(todos);
-                            return todos;
-                        }
+
+            return mTodoServiceApi.getTodos()
+                    .map((List<Todo> todos) -> {
+                        mCachedTodos = ImmutableList.copyOf(todos);
+                        return todos;
                     });
         } else {
             return Observable.just(mCachedTodos);
@@ -66,12 +63,9 @@ public class InMemoryTodosRepository implements TodosRepository {
     public Observable<Todo> saveTodo(@NonNull Todo todo) {
         checkNotNull(todo);
 
-        return mTodoServiceApi.saveTodo(todo).map(new Func1<Todo, Todo>() {
-            @Override
-            public Todo call(Todo todo) {
-                refreshData();
-                return todo;
-            }
+        return mTodoServiceApi.saveTodo(todo).map((Todo t) -> {
+            refreshData();
+            return t;
         });
     }
 
@@ -79,12 +73,9 @@ public class InMemoryTodosRepository implements TodosRepository {
     public Observable<Todo> updateTodo(@NonNull Todo todo) {
         checkNotNull(todo);
 
-        return mTodoServiceApi.updateTodo(todo).map(new Func1<Todo, Todo>() {
-            @Override
-            public Todo call(Todo todo) {
-                refreshData();
-                return todo;
-            }
+        return mTodoServiceApi.updateTodo(todo).map((Todo t) -> {
+            refreshData();
+            return t;
         });
     }
 
