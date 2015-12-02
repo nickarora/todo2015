@@ -28,7 +28,6 @@ public class InMemoryTodosRepository implements TodosRepository {
     @Override
     public Observable<List<Todo>> getTodos() {
         if (mCachedTodos == null) {
-
             return mTodoServiceApi.getTodos()
                     .map((List<Todo> todos) -> {
                         mCachedTodos = ImmutableList.copyOf(todos);

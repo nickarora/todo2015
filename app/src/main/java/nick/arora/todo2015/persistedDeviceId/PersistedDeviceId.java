@@ -37,7 +37,11 @@ public class PersistedDeviceId {
     }
 
     private String generateDeviceId() {
-        return UUID.randomUUID().toString();
+        if (BuildConfig.DEBUG) {
+            return "A100";
+        } else {
+            return UUID.randomUUID().toString();
+        }
     }
 
 }

@@ -9,7 +9,7 @@ public class Filter {
 
     public static List<Todo> todosByDevice(List<Todo> todoList, String deviceId) {
 
-        List<Todo> results = new ArrayList<Todo>();
+        List<Todo> results = new ArrayList<>();
 
         for (Todo todo : todoList) {
             if (todo.getDeviceId().equals(deviceId)) {

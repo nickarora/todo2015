@@ -60,13 +60,9 @@ public class TodosServiceSource {
     }
 
     private RequestInterceptor requestInterceptor() {
-        return new RequestInterceptor() {
-            @Override
-            public void intercept(RequestFacade request) {
-                request.addHeader("X-Parse-Application-Id", BuildConfig.PARSE_APP_ID);
-                request.addHeader("X-Parse-REST-API-Key", BuildConfig.PARSE_REST_API_KEY);
-            }
+        return request -> {
+            request.addHeader("X-Parse-Application-Id", BuildConfig.PARSE_APP_ID);
+            request.addHeader("X-Parse-REST-API-Key", BuildConfig.PARSE_REST_API_KEY);
         };
-
     }
 }
