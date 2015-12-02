@@ -1,24 +1,37 @@
 package nick.arora.todo2015.todos;
 
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 
-import javax.inject.Inject;
-
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import nick.arora.todo2015.BaseActivity;
 import nick.arora.todo2015.R;
 import nick.arora.todo2015.dagger.Injector;
-import nick.arora.todo2015.data.InMemoryTodosRepository;
-import nick.arora.todo2015.data.models.Todo;
-import rx.Subscriber;
 
 public class TodosActivity extends BaseActivity implements TodosContract.View {
+
+    @Bind(R.id.toolbar) Toolbar toolBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Injector.INSTANCE.getApplicationComponent().inject(this);
         setContentView(R.layout.activity_todos);
+        Injector.INSTANCE.getApplicationComponent().inject(this);
+        ButterKnife.bind(this);
+
+        initToolBar();
+    }
+
+    private void initToolBar() {
+        setSupportActionBar(toolBar);
+
+        final ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
 }
