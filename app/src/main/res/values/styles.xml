@@ -25,6 +25,14 @@
         <item name="rippleColor">@android:color/white</item>
     </style>
 
+    <style name="Widget.CardContent" parent="android:Widget">
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingTop">24dp</item>
+        <item name="android:paddingBottom">24dp</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
     <color name="primary">#EDC666</color>
     <color name="primary_dark">#7A7A7A</color>
     <color name="accent">#EDC666</color>
