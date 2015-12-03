@@ -1,6 +1,7 @@
 package nick.arora.todo2015.todos;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,8 +43,10 @@ public class TodosAdapter extends RecyclerView.Adapter<TodosAdapter.ViewHolder> 
         notifyDataSetChanged();
     }
 
-    private void setList(List<Todo> todos) {
-        mTodos = checkNotNull(todos);
+    private void setList(@NonNull List<Todo> todos) {
+        checkNotNull(todos);
+        mTodos.clear();
+        mTodos.addAll(todos);
     }
 
     @Override
