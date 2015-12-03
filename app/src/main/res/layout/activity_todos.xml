@@ -26,7 +26,8 @@
                 android:id="@+id/todo_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                android:padding="@dimen/todo_recycler_padding"/>
 
         </android.support.v4.widget.SwipeRefreshLayout>
 

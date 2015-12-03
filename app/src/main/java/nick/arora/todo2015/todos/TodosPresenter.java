@@ -26,6 +26,12 @@ public class TodosPresenter implements TodosContract.UserActionListener {
     }
 
     @Override
+    public void initNotes() {
+        mView.setProgressIndicator(true);
+        loadNotes(false);
+    }
+
+    @Override
     public void loadNotes(boolean forceUpdate) {
         if (forceUpdate) todosRepository.refreshData();
 

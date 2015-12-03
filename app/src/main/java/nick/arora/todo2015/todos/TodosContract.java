@@ -16,6 +16,8 @@ public interface TodosContract {
 
     interface UserActionListener {
 
+        void initNotes();
+
         void loadNotes(boolean forceUpdate);
 
     }

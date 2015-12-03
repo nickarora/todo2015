@@ -72,11 +72,13 @@ public class TodosActivity extends BaseActivity implements TodosContract.View {
     }
 
     private void initTodoList() {
-        //mTodosAdapter = new TodosAdapter(new ArrayList<>(0));
-        mTodosAdapter = new TodosAdapter(TODOS);
+        //mTodosAdapter = new TodosAdapter(TODOS);
+        mTodosAdapter = new TodosAdapter(new ArrayList<>(0));
         recycler.setAdapter(mTodosAdapter);
         recycler.setHasFixedSize(true);
         recycler.setLayoutManager(new GridLayoutManager(this, NUM_COLUMNS));
+
+        mActionsListener.initNotes();
     }
 
     @Override
