@@ -21,7 +21,7 @@ public class TodoServiceApiImpl implements TodoServiceApi {
 
     @Override
     public Observable<List<Todo>> getTodos() {
-        return mTodosServiceSource.getTodos(mDeviceId.toString());
+        return mTodosServiceSource.getTodos(mDeviceId.getString());
     }
 
     @Override
