@@ -3,9 +3,10 @@ package nick.arora.todo2015.todos;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 
 import com.google.common.collect.Lists;
 
@@ -26,6 +27,7 @@ public class TodosActivity extends BaseActivity implements TodosContract.View {
 
     private TodosAdapter mTodosAdapter;
     private TodosContract.UserActionListener mActionsListener;
+    private ItemTouchHelper mItemTouchHeper;
 
     private static final int NUM_COLUMNS = 2;
 
@@ -51,6 +53,7 @@ public class TodosActivity extends BaseActivity implements TodosContract.View {
         ButterKnife.bind(this);
 
         mActionsListener = new TodosPresenter(this);
+        mItemTouchHeper = new ItemTouchHelper(touchHelperCallback());
 
         initToolBar();
         initRefreshLayout();
@@ -58,7 +61,7 @@ public class TodosActivity extends BaseActivity implements TodosContract.View {
     }
 
     private void initRefreshLayout() {
-        refreshLayout.setOnRefreshListener(() -> mActionsListener.loadNotes(true));
+        refreshLayout.setOnRefreshListener(() -> mActionsListener.loadTodos(true));
     }
 
     private void initToolBar() {
@@ -72,13 +75,15 @@ public class TodosActivity extends BaseActivity implements TodosContract.View {
     }
 
     private void initTodoList() {
-        //mTodosAdapter = new TodosAdapter(TODOS);
+        // mTodosAdapter = new TodosAdapter(TODOS);
         mTodosAdapter = new TodosAdapter(new ArrayList<>(0));
+
         recycler.setAdapter(mTodosAdapter);
         recycler.setHasFixedSize(true);
-        recycler.setLayoutManager(new GridLayoutManager(this, NUM_COLUMNS));
+        recycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        mActionsListener.initNotes();
+        mItemTouchHeper.attachToRecyclerView(recycler);
+        mActionsListener.initTodos();
     }
 
     @Override
@@ -87,7 +92,34 @@ public class TodosActivity extends BaseActivity implements TodosContract.View {
     }
 
     @Override
-    public void showNotes(List<Todo> todos) {
+    public void showTodos(List<Todo> todos) {
         mTodosAdapter.replaceData(todos);
     }
+
+    @Override
+    public void moveTodos(int fromPosition, int toPosition) {
+        mTodosAdapter.onItemMoved(fromPosition, toPosition);
+    }
+
+    @Override
+    public void removeTodo(int position) {
+        mTodosAdapter.onItemDismiss(position);
+    }
+
+    private ItemTouchHelper.Callback touchHelperCallback() {
+        return new ItemTouchHelper
+                .SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+                    @Override
+                    public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                        mActionsListener.moveTodos(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+                        return true;
+                    }
+
+                    @Override
+                    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                        mActionsListener.removeTodo(viewHolder.getAdapterPosition());
+                    }
+                };
+            }
+
 }

@@ -1,5 +1,6 @@
 package nick.arora.todo2015.data.api;
 
+import java.util.HashMap;
 import java.util.List;
 
 import nick.arora.todo2015.data.models.Parse;
@@ -9,12 +10,16 @@ import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.PUT;
 import retrofit.http.Path;
+import retrofit.http.Query;
 import rx.Observable;
 
 public interface TodosServiceEndpoint {
 
     @GET("/1/classes/Todos")
     Observable<List<Todo>> getAllTodos();
+
+    @GET("/1/classes/Todos")
+    Observable<List<Todo>> getTodosByArchiveState(@Query("where") String archiveQuery);
 
     @GET("/1/classes/Todos/{objectId}")
     Observable<Todo> getTodo(@Path("objectId") String objectId);

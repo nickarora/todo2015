@@ -20,6 +20,8 @@ public class InMemoryTodosRepository implements TodosRepository {
 
     @VisibleForTesting
     List<Todo> mCachedTodos;
+    List<Todo> mCachedArchivedTodos;
+    List<Todo> mCachedUnarchivedTodos;
 
     public InMemoryTodosRepository(@NonNull TodoServiceApi todoServiceApi) {
         this.mTodoServiceApi = todoServiceApi;
@@ -35,6 +37,32 @@ public class InMemoryTodosRepository implements TodosRepository {
                     });
         } else {
             return Observable.just(mCachedTodos);
+        }
+    }
+
+    @Override
+    public Observable<List<Todo>> getUnarchivedTodos() {
+        if (mCachedUnarchivedTodos == null) {
+            return mTodoServiceApi.getUnarchivedTodos()
+                    .map((List<Todo> todos) -> {
+                        mCachedUnarchivedTodos = ImmutableList.copyOf(todos);
+                        return todos;
+                    });
+        } else {
+            return Observable.just(mCachedUnarchivedTodos);
+        }
+    }
+
+    @Override
+    public Observable<List<Todo>> getArchivedTodos() {
+        if (mCachedArchivedTodos == null) {
+            return mTodoServiceApi.getArchivedTodos()
+                    .map((List<Todo> todos) -> {
+                        mCachedArchivedTodos = ImmutableList.copyOf(todos);
+                        return todos;
+                    });
+        } else {
+            return Observable.just(mCachedArchivedTodos);
         }
     }
 
@@ -61,7 +89,6 @@ public class InMemoryTodosRepository implements TodosRepository {
     @Override
     public Observable<Todo> saveTodo(@NonNull Todo todo) {
         checkNotNull(todo);
-
         return mTodoServiceApi.saveTodo(todo).map((Todo t) -> {
             refreshData();
             return t;

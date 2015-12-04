@@ -10,15 +10,23 @@ public interface TodosContract {
 
         void setProgressIndicator(boolean active);
 
-        void showNotes(List<Todo> todos);
+        void showTodos(List<Todo> todos);
+
+        void moveTodos(int fromPosition, int toPosition);
+
+        void removeTodo(int position);
 
     }
 
     interface UserActionListener {
 
-        void initNotes();
+        void initTodos();
 
-        void loadNotes(boolean forceUpdate);
+        void loadTodos(boolean forceUpdate);
+
+        void moveTodos(int fromPosition, int toPosition);
+
+        void removeTodo(int position);
 
     }
 

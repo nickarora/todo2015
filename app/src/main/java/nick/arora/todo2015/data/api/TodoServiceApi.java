@@ -9,6 +9,10 @@ public interface TodoServiceApi {
 
     Observable<List<Todo>> getTodos();
 
+    Observable<List<Todo>> getUnarchivedTodos();
+
+    Observable<List<Todo>> getArchivedTodos();
+
     Observable<Todo> getEachTodo();
 
     Observable<Todo> getEachUnarchivedTodo();

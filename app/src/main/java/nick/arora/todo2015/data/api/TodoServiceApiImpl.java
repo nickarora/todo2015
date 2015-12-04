@@ -26,6 +26,16 @@ public class TodoServiceApiImpl implements TodoServiceApi {
     }
 
     @Override
+    public Observable<List<Todo>> getUnarchivedTodos() {
+        return mTodosServiceSource.getUnarchivedTodos();
+    }
+
+    @Override
+    public Observable<List<Todo>> getArchivedTodos() {
+        return mTodosServiceSource.getArchivedTodos();
+    }
+
+    @Override
     public Observable<Todo> getEachTodo() {
         return getTodos().flatMap(Observable::from);
     }

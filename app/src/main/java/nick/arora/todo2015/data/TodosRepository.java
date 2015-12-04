@@ -11,6 +11,10 @@ public interface TodosRepository {
 
     Observable<List<Todo>> getTodos();
 
+    Observable<List<Todo>> getUnarchivedTodos();
+
+    Observable<List<Todo>> getArchivedTodos();
+
     Observable<Todo> getEachTodo();
 
     Observable<Todo> getEachTodo(boolean archived);

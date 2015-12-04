@@ -3,6 +3,7 @@ package nick.arora.todo2015.data.api;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.HashMap;
 import java.util.List;
 
 import nick.arora.todo2015.BuildConfig;
@@ -22,6 +23,14 @@ public class TodosServiceSource {
         return buildTodosEndpoint().getAllTodos();
     }
 
+    public Observable<List<Todo>> getUnarchivedTodos() {
+        return buildTodosEndpoint().getTodosByArchiveState(archiveQuery(false));
+    }
+
+    public Observable<List<Todo>> getArchivedTodos() {
+        return buildTodosEndpoint().getTodosByArchiveState(archiveQuery(true));
+    }
+
     public Observable<Parse> saveTodo(Todo todo) {
         return buildTodoEndpoint().saveTodo(todo);
     }
@@ -34,23 +43,26 @@ public class TodosServiceSource {
         return buildTodoEndpoint().getTodo(objectId);
     }
 
-    private TodosServiceEndpoint buildTodoEndpoint() {
-        RestAdapter.Builder builder = new RestAdapter.Builder()
-                .setEndpoint(END_POINT)
-                .setRequestInterceptor(requestInterceptor())
-                .setLogLevel(RestAdapter.LogLevel.FULL);
+    private String archiveQuery(boolean isArchived) {
+        HashMap<String, Boolean> archiveQuery = new HashMap<>();
+        archiveQuery.put("mArchived", isArchived);
+        return new Gson().toJson(archiveQuery);
+    }
 
-        return builder.build().create(TodosServiceEndpoint.class);
+    private TodosServiceEndpoint buildTodoEndpoint() {
+        return todoRestBuilder().build().create(TodosServiceEndpoint.class);
     }
 
     private TodosServiceEndpoint buildTodosEndpoint() {
-        RestAdapter.Builder builder = new RestAdapter.Builder()
+        RestAdapter.Builder builder = todoRestBuilder().setConverter(new GsonConverter(todosGson()));
+        return builder.build().create(TodosServiceEndpoint.class);
+    }
+
+    private RestAdapter.Builder todoRestBuilder() {
+        return new RestAdapter.Builder()
                 .setEndpoint(END_POINT)
                 .setRequestInterceptor(requestInterceptor())
-                .setConverter(new GsonConverter(todosGson()))
                 .setLogLevel(RestAdapter.LogLevel.FULL);
-
-        return builder.build().create(TodosServiceEndpoint.class);
     }
 
     private Gson todosGson() {
@@ -65,4 +77,5 @@ public class TodosServiceSource {
             request.addHeader("X-Parse-REST-API-Key", BuildConfig.PARSE_REST_API_KEY);
         };
     }
+
 }

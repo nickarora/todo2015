@@ -26,16 +26,17 @@ public class TodosPresenter implements TodosContract.UserActionListener {
     }
 
     @Override
-    public void initNotes() {
+    public void initTodos() {
         mView.setProgressIndicator(true);
-        loadNotes(false);
+        loadTodos(false);
     }
 
     @Override
-    public void loadNotes(boolean forceUpdate) {
+    public void loadTodos(boolean forceUpdate) {
+
         if (forceUpdate) todosRepository.refreshData();
 
-        todosRepository.getTodos()
+        todosRepository.getUnarchivedTodos()
                 .compose(RxUtil.applyUiSchedulers())
                 .subscribe(new Subscriber<List<Todo>>() {
                     @Override
@@ -51,8 +52,19 @@ public class TodosPresenter implements TodosContract.UserActionListener {
                     @Override
                     public void onNext(List<Todo> todos) {
                         mView.setProgressIndicator(false);
-                        mView.showNotes(todos);
+                        mView.showTodos(todos);
                     }
                 });
+
+    }
+
+    @Override
+    public void moveTodos(int fromPosition, int toPosition) {
+        mView.moveTodos(fromPosition, toPosition);
+    }
+
+    @Override
+    public void removeTodo(int position) {
+        mView.removeTodo(position);
     }
 }

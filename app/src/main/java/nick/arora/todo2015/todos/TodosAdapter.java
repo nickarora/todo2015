@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.Collections;
 import java.util.List;
 
 import nick.arora.todo2015.R;
@@ -54,6 +55,25 @@ public class TodosAdapter extends RecyclerView.Adapter<TodosAdapter.ViewHolder> 
 
     public Todo getItem(int position) {
         return mTodos.get(position);
+    }
+
+    public void onItemDismiss(int position) {
+        mTodos.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public boolean onItemMoved(int fromPosition, int toPosition) {
+        if (fromPosition < toPosition) {
+            for (int i = fromPosition; i < toPosition; i++) {
+                Collections.swap(mTodos, i, i + 1);
+            }
+        } else {
+            for (int i = fromPosition; i > toPosition; i--) {
+                Collections.swap(mTodos, i, i - 1);
+            }
+        }
+        notifyItemMoved(fromPosition, toPosition);
+        return true;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
