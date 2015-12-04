@@ -16,7 +16,7 @@ import rx.Observable;
 public interface TodosServiceEndpoint {
 
     @GET("/1/classes/Todos")
-    Observable<List<Todo>> getAllTodos();
+    Observable<List<Todo>> getAllTodos(@Query("where") String deviceQuery);
 
     @GET("/1/classes/Todos")
     Observable<List<Todo>> getTodosByArchiveState(@Query("where") String archiveQuery);

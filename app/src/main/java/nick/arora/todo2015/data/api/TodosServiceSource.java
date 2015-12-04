@@ -19,16 +19,16 @@ public class TodosServiceSource {
 
     private static final String END_POINT = BuildConfig.PARSE_END_POINT;
 
-    public Observable<List<Todo>> getTodos() {
-        return buildTodosEndpoint().getAllTodos();
+    public Observable<List<Todo>> getTodos(String deviceId) {
+        return buildTodosEndpoint().getAllTodos(deviceQuery(deviceId));
     }
 
-    public Observable<List<Todo>> getUnarchivedTodos() {
-        return buildTodosEndpoint().getTodosByArchiveState(archiveQuery(false));
+    public Observable<List<Todo>> getUnarchivedTodos(String deviceId) {
+        return buildTodosEndpoint().getTodosByArchiveState(archiveQuery(deviceId, false));
     }
 
-    public Observable<List<Todo>> getArchivedTodos() {
-        return buildTodosEndpoint().getTodosByArchiveState(archiveQuery(true));
+    public Observable<List<Todo>> getArchivedTodos(String deviceId) {
+        return buildTodosEndpoint().getTodosByArchiveState(archiveQuery(deviceId, true));
     }
 
     public Observable<Parse> saveTodo(Todo todo) {
@@ -43,9 +43,14 @@ public class TodosServiceSource {
         return buildTodoEndpoint().getTodo(objectId);
     }
 
-    private String archiveQuery(boolean isArchived) {
-        HashMap<String, Boolean> archiveQuery = new HashMap<>();
-        archiveQuery.put("mArchived", isArchived);
+    private String deviceQuery(String deviceId) {
+        HashMap<String, String> query = new HashMap<>();
+        query.put("mDeviceId", deviceId);
+        return new Gson().toJson(query);
+    }
+
+    private String archiveQuery(String deviceId, boolean isArchived) {
+        ArchiveQuery archiveQuery = new ArchiveQuery(deviceId, isArchived);
         return new Gson().toJson(archiveQuery);
     }
 
@@ -76,6 +81,17 @@ public class TodosServiceSource {
             request.addHeader("X-Parse-Application-Id", BuildConfig.PARSE_APP_ID);
             request.addHeader("X-Parse-REST-API-Key", BuildConfig.PARSE_REST_API_KEY);
         };
+    }
+
+    private class ArchiveQuery {
+
+        private String mDeviceId;
+        private Boolean mArchived;
+
+        private ArchiveQuery(String mDeviceId, Boolean mArchived) {
+            this.mDeviceId = mDeviceId;
+            this.mArchived = mArchived;
+        }
     }
 
 }

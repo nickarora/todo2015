@@ -21,18 +21,17 @@ public class TodoServiceApiImpl implements TodoServiceApi {
 
     @Override
     public Observable<List<Todo>> getTodos() {
-        return mTodosServiceSource.getTodos()
-                .map((List<Todo> todos) -> Filter.todosByDevice(todos, mDeviceId.getString()));
+        return mTodosServiceSource.getTodos(mDeviceId.toString());
     }
 
     @Override
     public Observable<List<Todo>> getUnarchivedTodos() {
-        return mTodosServiceSource.getUnarchivedTodos();
+        return mTodosServiceSource.getUnarchivedTodos(mDeviceId.getString());
     }
 
     @Override
     public Observable<List<Todo>> getArchivedTodos() {
-        return mTodosServiceSource.getArchivedTodos();
+        return mTodosServiceSource.getArchivedTodos(mDeviceId.getString());
     }
 
     @Override
@@ -42,12 +41,12 @@ public class TodoServiceApiImpl implements TodoServiceApi {
 
     @Override
     public Observable<Todo> getEachUnarchivedTodo() {
-        return getEachTodo().filter((Todo todo) -> !todo.isArchived());
+        return getUnarchivedTodos().flatMap(Observable::from);
     }
 
     @Override
     public Observable<Todo> getEachArchivedTodo() {
-        return getEachTodo().filter(Todo::isArchived);
+        return getArchivedTodos().flatMap(Observable::from);
     }
 
     @Override
