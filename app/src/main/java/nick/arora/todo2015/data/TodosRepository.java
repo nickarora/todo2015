@@ -9,15 +9,9 @@ import rx.Observable;
 
 public interface TodosRepository {
 
-    Observable<List<Todo>> getTodos();
-
     Observable<List<Todo>> getUnarchivedTodos();
 
     Observable<List<Todo>> getArchivedTodos();
-
-    Observable<Todo> getEachTodo();
-
-    Observable<Todo> getEachTodo(boolean archived);
 
     Observable<Todo> getTodo(String id);
 
@@ -25,5 +19,9 @@ public interface TodosRepository {
 
     Observable<Todo> updateTodo(@NonNull Todo todo);
 
-    void refreshData();
+    Observable<List<Todo>> updateTodos(@NonNull List<Todo> todos);
+
+    void refreshUnarchivedData();
+
+    void refreshArchivedData();
 }

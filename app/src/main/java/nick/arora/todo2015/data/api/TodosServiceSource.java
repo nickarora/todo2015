@@ -3,10 +3,12 @@ package nick.arora.todo2015.data.api;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import nick.arora.todo2015.BuildConfig;
+import nick.arora.todo2015.data.deserializers.ParseDeserializer;
 import nick.arora.todo2015.data.deserializers.TodosDeserializer;
 import nick.arora.todo2015.data.models.Parse;
 import nick.arora.todo2015.data.models.Todo;
@@ -19,16 +21,12 @@ public class TodosServiceSource {
 
     private static final String END_POINT = BuildConfig.PARSE_END_POINT;
 
-    public Observable<List<Todo>> getTodos(String deviceId) {
-        return buildTodosEndpoint().getAllTodos(deviceQuery(deviceId));
-    }
-
     public Observable<List<Todo>> getUnarchivedTodos(String deviceId) {
-        return buildTodosEndpoint().getTodosByArchiveState(archiveQuery(deviceId, false));
+        return buildTodosEndpoint().getTodos(archiveQuery(deviceId, false), "updatedAt");
     }
 
     public Observable<List<Todo>> getArchivedTodos(String deviceId) {
-        return buildTodosEndpoint().getTodosByArchiveState(archiveQuery(deviceId, true));
+        return buildTodosEndpoint().getTodos(archiveQuery(deviceId, true), "updatedAt");
     }
 
     public Observable<Parse> saveTodo(Todo todo) {
@@ -37,6 +35,10 @@ public class TodosServiceSource {
 
     public Observable<Parse> updateTodo(Todo todo) {
         return buildTodoEndpoint().updateTodo(todo.objectId, todo);
+    }
+
+    public Observable<List<Parse>> updateTodos(List<Todo> todos) {
+        return buildBatchTodosEndpoint().updateTodos(new TodoBatch(todos));
     }
 
     public Observable<Todo> getTodo(String objectId) {
@@ -63,6 +65,11 @@ public class TodosServiceSource {
         return builder.build().create(TodosServiceEndpoint.class);
     }
 
+    private TodosServiceEndpoint buildBatchTodosEndpoint() {
+        RestAdapter.Builder builder = todoRestBuilder().setConverter(new GsonConverter(batchTodosGson()));
+        return builder.build().create(TodosServiceEndpoint.class);
+    }
+
     private RestAdapter.Builder todoRestBuilder() {
         return new RestAdapter.Builder()
                 .setEndpoint(END_POINT)
@@ -73,6 +80,12 @@ public class TodosServiceSource {
     private Gson todosGson() {
         return new GsonBuilder()
                 .registerTypeAdapter(List.class, new TodosDeserializer())
+                .create();
+    }
+
+    private Gson batchTodosGson() {
+        return new GsonBuilder()
+                .registerTypeAdapter(List.class, new ParseDeserializer())
                 .create();
     }
 
@@ -92,6 +105,29 @@ public class TodosServiceSource {
             this.mDeviceId = mDeviceId;
             this.mArchived = mArchived;
         }
+    }
+
+    public class TodoBatch {
+
+        private List<Request> requests = new ArrayList<>();
+
+        private class Request {
+            private String method = "PUT";
+            private String path = "/1/classes/Todos/";
+            private Todo body;
+
+            public Request(Todo todo) {
+                path = path + todo.objectId;
+                body = todo;
+            }
+        }
+
+        public TodoBatch(List<Todo> todos) {
+            for (Todo todo : todos) {
+                requests.add(new Request(todo));
+            }
+        }
+
     }
 
 }

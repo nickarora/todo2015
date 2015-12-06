@@ -34,7 +34,7 @@ public class TodosPresenter implements TodosContract.UserActionListener {
     @Override
     public void loadTodos(boolean forceUpdate) {
 
-        if (forceUpdate) todosRepository.refreshData();
+        if (forceUpdate) todosRepository.refreshUnarchivedData();
 
         todosRepository.getUnarchivedTodos()
                 .compose(RxUtil.applyUiSchedulers())
@@ -65,6 +65,50 @@ public class TodosPresenter implements TodosContract.UserActionListener {
 
     @Override
     public void removeTodo(int position) {
+
+        todosRepository.getUnarchivedTodos().subscribe(new Subscriber<List<Todo>>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(List<Todo> todos) {
+                persistRemovedTodo(todos, position);
+            }
+        });
+
         mView.removeTodo(position);
+    }
+
+    private void persistRemovedTodo(List<Todo> todos, int position) {
+        List<Todo> changedTodos = todos.subList(position, todos.size());
+
+        changedTodos.get(0).archive();
+        for (int i = 1; i < changedTodos.size(); i++) {
+            // update order for remaining todos
+        }
+
+        todosRepository.updateTodos(changedTodos).subscribe(new Subscriber<List<Todo>>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(List<Todo> todos) {
+
+            }
+        });
     }
 }
