@@ -109,7 +109,7 @@ public class TodosPresenter implements TodosContract.UserActionListener {
 
         changedTodos.get(0).archive();
         for (int i = 1; i < changedTodos.size(); i++) {
-            // update order
+            changedTodos.get(i).decrementOrder();
         }
 
         return changedTodos;

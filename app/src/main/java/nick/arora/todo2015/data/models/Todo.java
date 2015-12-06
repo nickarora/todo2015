@@ -8,14 +8,16 @@ public class Todo extends Parse {
 
     private String mDeviceId;
     private String mTitle;
-    @Nullable private  String mDescription;
     private boolean mArchived;
+    private int mOrder;
 
-    public Todo(String mDeviceId, String mTitle, String mDescription, boolean mArchived) {
+    @Nullable private  String mDescription;
+
+    public Todo(String mDeviceId, String mTitle, String mDescription) {
         this.mDeviceId = mDeviceId;
         this.mTitle = mTitle;
         this.mDescription = mDescription;
-        this.mArchived = mArchived;
+        this.mArchived = false;
     }
 
     public String getDeviceId() {
@@ -31,10 +33,28 @@ public class Todo extends Parse {
         return mDescription;
     }
 
-    public void archive() { mArchived = true; }
+    public void archive() {
+        mArchived = true;
+    }
 
     public boolean isArchived() {
         return mArchived;
+    }
+
+    public int getOrder() {
+        return mOrder;
+    }
+
+    public void setOrder(int position) {
+        mOrder = position;
+    }
+
+    public void decrementOrder() {
+        mOrder--;
+    }
+
+    public void incrementOrder() {
+        mOrder++;
     }
 
     @Override
