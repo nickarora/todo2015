@@ -22,11 +22,11 @@ public class TodosServiceSource {
     private static final String END_POINT = BuildConfig.PARSE_END_POINT;
 
     public Observable<List<Todo>> getUnarchivedTodos(String deviceId) {
-        return buildTodosEndpoint().getTodos(archiveQuery(deviceId, false), "updatedAt");
+        return buildTodosEndpoint().getTodos(archiveQuery(deviceId, false), "-updatedAt");
     }
 
     public Observable<List<Todo>> getArchivedTodos(String deviceId) {
-        return buildTodosEndpoint().getTodos(archiveQuery(deviceId, true), "updatedAt");
+        return buildTodosEndpoint().getTodos(archiveQuery(deviceId, true), "-updatedAt");
     }
 
     public Observable<Parse> saveTodo(Todo todo) {
