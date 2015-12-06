@@ -8,8 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
-import com.google.common.collect.Lists;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,23 +27,6 @@ public class TodosActivity extends BaseActivity implements TodosContract.View {
     private TodosContract.UserActionListener mActionsListener;
     private ItemTouchHelper mItemTouchHeper;
 
-    private static final int NUM_COLUMNS = 2;
-
-    /* Temporary */
-    private static String MY_DEVICE = "A100";
-    private static String OTHER_DEVICE = "B200";
-
-    List<Todo> TODOS = Lists.newArrayList(
-            new Todo(MY_DEVICE, "Test1", "Description1", false),
-            new Todo(MY_DEVICE, "Test2", "Description2", false),
-            new Todo(MY_DEVICE, "Test3", "Description3", false),
-            new Todo(MY_DEVICE, "Test4", "Description4", true),
-            new Todo(MY_DEVICE, "Test5", "Description5", true),
-            new Todo(OTHER_DEVICE, "Test6", "Description6", false),
-            new Todo(OTHER_DEVICE, "Test7", "Description7", true)
-    );
-    /* Temporary */
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +38,19 @@ public class TodosActivity extends BaseActivity implements TodosContract.View {
 
         initToolBar();
         initRefreshLayout();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mActionsListener.startListening();
         initTodoList();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mActionsListener.stopListening();
     }
 
     private void initRefreshLayout() {
@@ -75,7 +68,6 @@ public class TodosActivity extends BaseActivity implements TodosContract.View {
     }
 
     private void initTodoList() {
-        // mTodosAdapter = new TodosAdapter(TODOS);
         mTodosAdapter = new TodosAdapter(new ArrayList<>(0));
 
         recycler.setAdapter(mTodosAdapter);

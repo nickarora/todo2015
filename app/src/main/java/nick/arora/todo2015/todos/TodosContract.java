@@ -20,6 +20,10 @@ public interface TodosContract {
 
     interface UserActionListener {
 
+        void startListening();
+
+        void stopListening();
+
         void initTodos();
 
         void loadTodos(boolean forceUpdate);

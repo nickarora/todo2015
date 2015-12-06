@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.Toolbar;
 
 import nick.arora.todo2015.dagger.Injector;
+import rx.subscriptions.CompositeSubscription;
 
 public class BaseActivity extends AppCompatActivity {
 
