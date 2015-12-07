@@ -12,9 +12,7 @@ import nick.arora.todo2015.data.models.Todo;
 import nick.arora.todo2015.util.RxUtil;
 import rx.Subscriber;
 import rx.Subscription;
-import rx.functions.Func1;
 import rx.subscriptions.CompositeSubscription;
-import timber.log.Timber;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
