@@ -132,7 +132,11 @@ public class TodosActivity extends BaseActivity implements TodosContract.View {
                     super.clearView(recyclerView, viewHolder);
 
                     if (mFrom != null && mTo != null) {
-                        mActionsListener.dropMovedTodo(Math.min(mFrom, mTo), Math.max(mFrom, mTo));
+                        if (mFrom < mTo) {
+                            mActionsListener.dropMovedTodo(mFrom, mTo);
+                        } else {
+                            mActionsListener.dropMovedTodo(mTo, mFrom);
+                        }
                     }
 
                     mFrom = mTo = null;
