@@ -1,5 +1,6 @@
 package nick.arora.todo2015.todos;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
@@ -7,6 +8,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.DragEvent;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +19,8 @@ import butterknife.ButterKnife;
 import nick.arora.todo2015.BaseActivity;
 import nick.arora.todo2015.R;
 import nick.arora.todo2015.data.models.Todo;
+
+import static android.support.v7.widget.helper.ItemTouchHelper.*;
 
 public class TodosActivity extends BaseActivity implements TodosContract.View {
 
@@ -68,7 +73,12 @@ public class TodosActivity extends BaseActivity implements TodosContract.View {
     }
 
     private void initTodoList() {
-        mTodosAdapter = new TodosAdapter(new ArrayList<>(0));
+        mTodosAdapter = new TodosAdapter(new ArrayList<>(0), new TodosAdapter.TodoItemListener() {
+            @Override
+            public void onItemClick(View view) {
+                // HANDLE CLICK
+            }
+        });
 
         recycler.setAdapter(mTodosAdapter);
         recycler.setHasFixedSize(true);
@@ -98,20 +108,38 @@ public class TodosActivity extends BaseActivity implements TodosContract.View {
         mTodosAdapter.onItemDismiss(position);
     }
 
-    private ItemTouchHelper.Callback touchHelperCallback() {
-        return new ItemTouchHelper
-                .SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-                    @Override
-                    public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                        mActionsListener.moveTodos(viewHolder.getAdapterPosition(), target.getAdapterPosition());
-                        return true;
+    private Callback touchHelperCallback() {
+
+        return new SimpleCallback(UP | DOWN, LEFT | RIGHT) {
+
+                private Integer mFrom = null;
+                private Integer mTo = null;
+
+                @Override
+                public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder source, RecyclerView.ViewHolder target) {
+                    if (mFrom == null) mFrom = source.getAdapterPosition();
+                    mTo = target.getAdapterPosition();
+
+                    mActionsListener.moveTodos(source.getAdapterPosition(), target.getAdapterPosition());
+                    return true;
+                }
+
+                @Override
+                public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                    mActionsListener.removeTodo(viewHolder.getAdapterPosition());
+                }
+
+                @Override
+                public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+                    super.clearView(recyclerView, viewHolder);
+
+                    if (mFrom != null && mTo != null) {
+                        mActionsListener.dropMovedTodo(Math.min(mFrom, mTo), Math.max(mFrom, mTo));
                     }
 
-                    @Override
-                    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                        mActionsListener.removeTodo(viewHolder.getAdapterPosition());
-                    }
-                };
-            }
+                    mFrom = mTo = null;
+                }
+            };
+        }
 
 }

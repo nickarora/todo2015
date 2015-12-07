@@ -7,6 +7,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -23,6 +24,8 @@ public class InMemoryTodosRepository implements TodosRepository {
 
     @VisibleForTesting
     List<Todo> mCachedArchivedTodos;
+
+    @VisibleForTesting
     List<Todo> mCachedUnarchivedTodos;
 
     public InMemoryTodosRepository(@NonNull TodoServiceApi todoServiceApi) {
@@ -34,7 +37,7 @@ public class InMemoryTodosRepository implements TodosRepository {
         if (mCachedUnarchivedTodos == null) {
             return mTodoServiceApi.getUnarchivedTodos()
                     .map((List<Todo> todos) -> {
-                        mCachedUnarchivedTodos = ImmutableList.copyOf(todos);
+                        mCachedUnarchivedTodos = new ArrayList<Todo>(todos);
                         return todos;
                     });
         } else {
@@ -47,7 +50,7 @@ public class InMemoryTodosRepository implements TodosRepository {
         if (mCachedArchivedTodos == null) {
             return mTodoServiceApi.getArchivedTodos()
                     .map((List<Todo> todos) -> {
-                        mCachedArchivedTodos = ImmutableList.copyOf(todos);
+                        mCachedArchivedTodos = new ArrayList<Todo>(todos);
                         return todos;
                     });
         } else {
@@ -104,6 +107,28 @@ public class InMemoryTodosRepository implements TodosRepository {
 
     private boolean todoRemoved(List<Todo> todos) {
         return Iterables.any(todos, input -> input.isArchived());
+    }
+
+    public void moveTodos(int fromPosition, int toPosition) {
+        if (mCachedUnarchivedTodos == null) return;
+
+        if (fromPosition < toPosition) {
+            for (int i = fromPosition; i < toPosition; i++) {
+                Collections.swap(mCachedUnarchivedTodos, i, i + 1);
+            }
+        } else {
+            for (int i = fromPosition; i > toPosition; i--) {
+                Collections.swap(mCachedUnarchivedTodos, i, i - 1);
+            }
+        }
+
+        reorderTodos();
+    }
+
+    private void reorderTodos() {
+        for (int i = 0; i < mCachedUnarchivedTodos.size(); i++) {
+            mCachedUnarchivedTodos.get(i).setOrder(i);
+        }
     }
 
 }

@@ -53,10 +53,6 @@ public class Todo extends Parse {
         mOrder--;
     }
 
-    public void incrementOrder() {
-        mOrder++;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -80,4 +76,5 @@ public class Todo extends Parse {
     public String toString() {
         return String.format("Todo { %s, %s, %s, %b }", mTitle, mDescription, mDeviceId, mArchived);
     }
+
 }

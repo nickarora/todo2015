@@ -20,8 +20,11 @@ public class TodosAdapter extends RecyclerView.Adapter<TodosAdapter.ViewHolder> 
 
     private List<Todo> mTodos;
 
-    public TodosAdapter(List<Todo> mTodos) {
+    private TodoItemListener mItemsListener;
+
+    public TodosAdapter(List<Todo> mTodos, TodoItemListener todoItemListener) {
         this.mTodos = mTodos;
+        this.mItemsListener = todoItemListener;
     }
 
     @Override
@@ -94,5 +97,9 @@ public class TodosAdapter extends RecyclerView.Adapter<TodosAdapter.ViewHolder> 
             Todo todo = getItem(position);
             //TODO: Take Action Here
         }
+    }
+
+    public interface TodoItemListener {
+        void onItemClick(View view);
     }
 }

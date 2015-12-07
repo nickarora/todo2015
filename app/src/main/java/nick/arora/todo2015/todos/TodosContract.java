@@ -30,6 +30,8 @@ public interface TodosContract {
 
         void moveTodos(int fromPosition, int toPosition);
 
+        void dropMovedTodo(int fromPosition, int toPosition);
+
         void removeTodo(int position);
 
     }

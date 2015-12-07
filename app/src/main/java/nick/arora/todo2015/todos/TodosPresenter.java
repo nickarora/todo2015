@@ -12,7 +12,9 @@ import nick.arora.todo2015.data.models.Todo;
 import nick.arora.todo2015.util.RxUtil;
 import rx.Subscriber;
 import rx.Subscription;
+import rx.functions.Func1;
 import rx.subscriptions.CompositeSubscription;
+import timber.log.Timber;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -53,6 +55,12 @@ public class TodosPresenter implements TodosContract.UserActionListener {
     @Override
     public void moveTodos(int fromPosition, int toPosition) {
         mView.moveTodos(fromPosition, toPosition);
+        todosRepository.moveTodos(fromPosition, toPosition);
+    }
+
+    @Override
+    public void dropMovedTodo(int fromPosition, int toPosition) {
+        mCompositeSubscription.add(persistMovedTodos(fromPosition, toPosition));
     }
 
     @Override
@@ -100,6 +108,28 @@ public class TodosPresenter implements TodosContract.UserActionListener {
                     public void onNext(List<Todo> todos) {
                         mView.setProgressIndicator(false);
                         mView.showTodos(todos);
+                    }
+                });
+    }
+
+    private Subscription persistMovedTodos(int fromPosition, int toPosition) {
+        return todosRepository.getUnarchivedTodos()
+                .map(todos -> todos.subList(fromPosition, toPosition + 1))
+                .flatMap(todos -> todosRepository.updateTodos(todos))
+                .subscribe(new Subscriber<List<Todo>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<Todo> todos) {
+
                     }
                 });
     }
